@@ -15,7 +15,10 @@ class SplashView extends ConsumerWidget {
     return const Scaffold(
       backgroundColor: Colors.white,
       body: SizedBox.expand(
-        child: Image(image: AssetImage(AppImages.splashLogo)),
+        child: Image(
+          image: AssetImage(AppImages.splashLogo),
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
