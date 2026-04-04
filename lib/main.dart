@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter AI Application',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
       initialRoute: RoutesName.splash,
       onGenerateRoute: RoutePush.generateRoute,

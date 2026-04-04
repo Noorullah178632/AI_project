@@ -10,6 +10,6 @@ class OnboardingView extends StatefulWidget {
 class _OnboardingViewState extends State<OnboardingView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text("Ai Data")));
+    return Scaffold(body: Center(child: Text("boarding   screen Data")));
   }
 }
