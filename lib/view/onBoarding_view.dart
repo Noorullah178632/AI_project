@@ -1,9 +1,12 @@
 import 'package:ai_project/utils/images/app_images.dart';
+import 'package:ai_project/view_models/onBoarding_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+// ignore: must_be_immutable
 class OnboardingView extends ConsumerWidget {
-  const OnboardingView({super.key});
+  OnboardingView({super.key});
   //provider for page Controller
   final pageControllerProvider = Provider((ref) {
     return PageController();
@@ -16,6 +19,48 @@ class OnboardingView extends ConsumerWidget {
   ];
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(appBar: AppBar(), body: PageView());
+    //watch data
+    final pageController = ref.watch(pageControllerProvider);
+    // final currentPage = ref.watch(onBoardingProvider);
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(),
+      body: Stack(
+        children: [
+          //pageview
+          PageView.builder(
+            controller: pageController,
+            itemCount: pageImages.length,
+            onPageChanged: (value) {},
+            itemBuilder: (context, index) {
+              return SizedBox.expand(
+                // Ensures the image container is full screen
+                child: Image.asset(
+                  pageImages[index], // Assuming pageImages is a list of Strings (paths)
+                  fit: BoxFit
+                      .cover, // This is the key to covering the whole screen
+                ),
+              );
+            },
+          ),
+          //smoothpageIndicator
+          Align(
+            alignment: .bottomCenter,
+
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 30),
+              child: SmoothPageIndicator(
+                controller: pageController,
+                count: pageImages.length,
+                axisDirection: .horizontal,
+
+                onDotClicked: (index) {},
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

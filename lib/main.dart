@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter AI Application',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      initialRoute: RoutesName.splash,
+      initialRoute: RoutesName.onBoardindScreen,
       onGenerateRoute: RoutePush.generateRoute,
     );
   }
