@@ -1,5 +1,4 @@
 import 'package:ai_project/utils/images/app_images.dart';
-import 'package:ai_project/view_models/onBoarding_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -25,7 +24,10 @@ class OnboardingView extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: const Text("OnBoarding Screen "),
+      ),
       body: Stack(
         children: [
           //pageview
