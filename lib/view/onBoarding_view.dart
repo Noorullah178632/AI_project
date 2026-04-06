@@ -1,4 +1,5 @@
 import 'package:ai_project/utils/images/app_images.dart';
+import 'package:ai_project/view_models/onBoarding_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -20,13 +21,14 @@ class OnboardingView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //watch data
     final pageController = ref.watch(pageControllerProvider);
-    // final currentPage = ref.watch(onBoardingProvider);
+    final currentPage = ref.watch(onBoardingProvider);
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: const Text("OnBoarding Screen "),
+      //  backgroundColor: Colors.white,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(backgroundColor: Colors.transparent, actions: [
+   
+   ],
       ),
       body: Stack(
         children: [
@@ -34,7 +36,9 @@ class OnboardingView extends ConsumerWidget {
           PageView.builder(
             controller: pageController,
             itemCount: pageImages.length,
-            onPageChanged: (value) {},
+            onPageChanged: (value) {
+              ref.read(onBoardingProvider.notifier).setPage(value);
+            },
             itemBuilder: (context, index) {
               return SizedBox.expand(
                 // Ensures the image container is full screen
@@ -52,12 +56,63 @@ class OnboardingView extends ConsumerWidget {
 
             child: Padding(
               padding: EdgeInsets.only(bottom: 30),
-              child: SmoothPageIndicator(
-                controller: pageController,
-                count: pageImages.length,
-                axisDirection: .horizontal,
+              child: Row(
+                mainAxisAlignment: .spaceAround,
+                children: [
+                  currentPage > 0
+                      ? GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color.fromARGB(255, 225, 185, 198),
+                                  Colors.lightBlue,
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                            ),
+                            child: const Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
+                  SmoothPageIndicator(
+                    controller: pageController,
+                    count: pageImages.length,
+                    axisDirection: .horizontal,
 
-                onDotClicked: (index) {},
+                    onDotClicked: (index) {},
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(255, 225, 185, 198),
+                            Colors.lightBlue,
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
