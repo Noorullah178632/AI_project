@@ -34,7 +34,11 @@ class OnboardingView extends ConsumerWidget {
               ? Padding(
                   padding: const EdgeInsets.only(right: 10.0),
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ref
+                          .read(onBoardingProvider.notifier)
+                          .skipPage(pageImages.length - 1, pageController);
+                    },
                     child: ShaderMask(
                       blendMode: BlendMode.srcIn,
                       shaderCallback: (bounds) =>
@@ -145,14 +149,27 @@ class OnboardingView extends ConsumerWidget {
                     count: pageImages.length,
                     axisDirection: .horizontal,
 
-                    onDotClicked: (index) {},
+                    onDotClicked: (index) {
+                      // 1. Update the state in your Notifier
+                      ref.read(onBoardingProvider.notifier).setPage(index);
+
+                      // 2. Animate the PageView to the new index
+                      pageController.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
                   ),
                   currentPage < 2
                       ? GestureDetector(
                           onTap: () {
                             ref
                                 .read(onBoardingProvider.notifier)
-                                .nextPage(3, pageController);
+                                .nextPage(
+                                  pageImages.length + 1,
+                                  pageController,
+                                );
                           },
                           child: Container(
                             width: 40,
