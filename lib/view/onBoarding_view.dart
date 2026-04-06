@@ -26,9 +26,62 @@ class OnboardingView extends ConsumerWidget {
     return Scaffold(
       //  backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
-      appBar: AppBar(backgroundColor: Colors.transparent, actions: [
-   
-   ],
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        actions: [
+          // This shows the Skip button ONLY on page 0 and page 1
+          currentPage < 2
+              ? Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: TextButton(
+                    onPressed: () {},
+                    child: ShaderMask(
+                      blendMode: BlendMode.srcIn,
+                      shaderCallback: (bounds) =>
+                          const LinearGradient(
+                            colors: [
+                              Color.fromARGB(255, 225, 185, 198),
+                              Colors.lightBlue,
+                            ],
+                          ).createShader(
+                            Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                          ),
+                      child: const Text(
+                        "Skip",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: TextButton(
+                    onPressed: () {},
+                    child: ShaderMask(
+                      blendMode: BlendMode.srcIn,
+                      shaderCallback: (bounds) =>
+                          const LinearGradient(
+                            colors: [
+                              Color.fromARGB(255, 225, 185, 198),
+                              Colors.lightBlue,
+                            ],
+                          ).createShader(
+                            Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                          ),
+                      child: const Text(
+                        "Home",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+        ],
       ),
       body: Stack(
         children: [
@@ -61,7 +114,11 @@ class OnboardingView extends ConsumerWidget {
                 children: [
                   currentPage > 0
                       ? GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            ref
+                                .read(onBoardingProvider.notifier)
+                                .previousPage(pageController);
+                          },
                           child: Container(
                             width: 40,
                             height: 40,
@@ -90,28 +147,34 @@ class OnboardingView extends ConsumerWidget {
 
                     onDotClicked: (index) {},
                   ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromARGB(255, 225, 185, 198),
-                            Colors.lightBlue,
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                  currentPage < 2
+                      ? GestureDetector(
+                          onTap: () {
+                            ref
+                                .read(onBoardingProvider.notifier)
+                                .nextPage(3, pageController);
+                          },
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color.fromARGB(255, 225, 185, 198),
+                                  Colors.lightBlue,
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                            ),
+                            child: const Icon(
+                              Icons.arrow_forward,
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
                 ],
               ),
             ),
