@@ -1,4 +1,5 @@
 import 'package:ai_project/utils/images/app_images.dart';
+import 'package:ai_project/utils/routes/route_name.dart';
 import 'package:ai_project/view_models/onBoarding_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -64,7 +65,13 @@ class OnboardingView extends ConsumerWidget {
               : Padding(
                   padding: const EdgeInsets.only(right: 10.0),
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        RoutesName.homeScreen,
+                        (route) => false,
+                      );
+                    },
                     child: ShaderMask(
                       blendMode: BlendMode.srcIn,
                       shaderCallback: (bounds) =>

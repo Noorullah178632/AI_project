@@ -1,6 +1,6 @@
 import 'package:ai_project/utils/routes/route_name.dart';
 import 'package:ai_project/view/chat_screen_view.dart';
-import 'package:ai_project/view/home_view.dart';
+import 'package:ai_project/view/home/home_view.dart';
 import 'package:ai_project/view/image_generate_view.dart';
 import 'package:ai_project/view/onBoarding_view.dart';
 import 'package:ai_project/view/splash_view.dart';
