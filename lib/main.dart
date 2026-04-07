@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             colorScheme: .fromSeed(seedColor: Colors.deepPurple),
           ),
-          initialRoute: RoutesName.homeScreen,
+          initialRoute: RoutesName.chatScreen,
           onGenerateRoute: RoutePush.generateRoute,
         );
       },
