@@ -2,6 +2,7 @@ import 'package:ai_project/utils/images/app_images.dart';
 import 'package:ai_project/view_models/onBoarding_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 // ignore: must_be_immutable
@@ -32,7 +33,7 @@ class OnboardingView extends ConsumerWidget {
           // This shows the Skip button ONLY on page 0 and page 1
           currentPage < 2
               ? Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
+                  padding: EdgeInsets.only(right: 10.w),
                   child: TextButton(
                     onPressed: () {
                       ref
@@ -50,10 +51,10 @@ class OnboardingView extends ConsumerWidget {
                           ).createShader(
                             Rect.fromLTWH(0, 0, bounds.width, bounds.height),
                           ),
-                      child: const Text(
+                      child: Text(
                         "Skip",
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 22.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -75,10 +76,10 @@ class OnboardingView extends ConsumerWidget {
                           ).createShader(
                             Rect.fromLTWH(0, 0, bounds.width, bounds.height),
                           ),
-                      child: const Text(
+                      child: Text(
                         "Home",
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 22.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -112,7 +113,7 @@ class OnboardingView extends ConsumerWidget {
             alignment: .bottomCenter,
 
             child: Padding(
-              padding: EdgeInsets.only(bottom: 30),
+              padding: EdgeInsets.only(bottom: 30.h),
               child: Row(
                 mainAxisAlignment: .spaceAround,
                 children: [
@@ -124,8 +125,8 @@ class OnboardingView extends ConsumerWidget {
                                 .previousPage(pageController);
                           },
                           child: Container(
-                            width: 40,
-                            height: 40,
+                            width: 40.w,
+                            height: 40.h,
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               gradient: LinearGradient(
@@ -172,8 +173,8 @@ class OnboardingView extends ConsumerWidget {
                                 );
                           },
                           child: Container(
-                            width: 40,
-                            height: 40,
+                            width: 40.w,
+                            height: 40.h,
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               gradient: LinearGradient(
