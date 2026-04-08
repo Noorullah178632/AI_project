@@ -1,4 +1,6 @@
+import 'package:ai_project/utils/generalUtils/app_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatScreenView extends StatefulWidget {
@@ -112,7 +114,14 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                           SizedBox(height: 8.h),
                           // Tiny Copy Button
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () async {
+                              await Clipboard.setData(
+                                ClipboardData(text: message),
+                              );
+                              if (context.mounted) {
+                                AppUtils.showSnackBar(context, "Text Copied!");
+                              }
+                            },
                             child: Align(
                               alignment: Alignment.bottomRight,
                               child: Icon(
