@@ -38,7 +38,8 @@ dependencies:
   smooth_page_indicator: ^2.0.1
   flutter_screenutil: ^5.9.3
   fluttertoast: ^9.0.0
-  flutter_datetime_picker: ^1.5.1
+
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:

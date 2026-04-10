@@ -144,7 +144,14 @@ class ChatScreenView extends ConsumerWidget {
                               //SizedBox(height: 8.h),
                               Align(
                                 alignment: Alignment.bottomRight,
-                                child: Text(message.time.toString()),
+                                child: Text(
+                                  message.formattedDate.toString(),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    //fontSize: 20.r,
+                                    //  fontWeight: .bold,
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -185,6 +192,19 @@ class ChatScreenView extends ConsumerWidget {
                           ),
                           border: InputBorder.none,
                         ),
+                        //onsubmitted for "Enter" Button
+                        onSubmitted: (value) {
+                          final message = chatController.text.trim();
+                          if (message.isNotEmpty) {
+                            ref
+                                .read(chatmessageProvider.notifier)
+                                .sendMessage(message);
+                            //clear chat
+                            chatController.clear();
+                            //unfocus the field
+                            FocusScope.of(context).unfocus();
+                          }
+                        },
                       ),
                     ),
                   ),
