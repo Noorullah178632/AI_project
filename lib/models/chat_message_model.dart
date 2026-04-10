@@ -1,7 +1,8 @@
 class ChatMessageModel {
   final String text;
   final bool isUser;
-  final DateTime time = DateTime.now();
+  final DateTime time;
 
-  ChatMessageModel({required this.text, required this.isUser});
+  ChatMessageModel({required this.text, required this.isUser, DateTime? time})
+    : time = time ?? DateTime.now();
 }
