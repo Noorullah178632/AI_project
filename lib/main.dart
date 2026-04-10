@@ -1,10 +1,13 @@
 import 'package:ai_project/utils/routes/route_name.dart';
 import 'package:ai_project/utils/routes/route_push.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: "google_api.env");
   runApp(const ProviderScope(child: MyApp()));
 }
 
