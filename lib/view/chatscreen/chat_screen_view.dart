@@ -1,18 +1,21 @@
 import 'package:ai_project/utils/generalUtils/app_utils.dart';
+import 'package:ai_project/view/chatscreen/widgets/text_controller_providers.dart';
+import 'package:ai_project/view_models/chat_message_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ChatScreenView extends StatefulWidget {
+class ChatScreenView extends ConsumerWidget {
   const ChatScreenView({super.key});
 
   @override
-  State<ChatScreenView> createState() => _ChatScreenViewState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    //get the chat provider for Textediting controller
+    final chatController = ref.watch(chatControllerProvider);
+    //get the chatMessageViewModel list
+    final messageProvider = ref.watch(chatmessageProvider);
 
-class _ChatScreenViewState extends State<ChatScreenView> {
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF8F9FA),
       appBar: AppBar(
@@ -65,11 +68,12 @@ class _ChatScreenViewState extends State<ChatScreenView> {
             Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.symmetric(vertical: 5.h),
-                itemCount: 10,
+                itemCount: messageProvider.length,
                 itemBuilder: (context, index) {
+                  final message = messageProvider[index];
                   // logic even : user and odd : AI
                   bool isUser = index % 2 == 0;
-                  String message = isUser
+                  String messageL = isUser
                       ? "User Message $index"
                       : "AI message $index";
 
@@ -105,7 +109,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            message,
+                            message.text,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 14.sp,
@@ -113,23 +117,36 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                           ),
                           SizedBox(height: 8.h),
                           // Tiny Copy Button
-                          GestureDetector(
-                            onTap: () async {
-                              await Clipboard.setData(
-                                ClipboardData(text: message),
-                              );
-                              if (context.mounted) {
-                                AppUtils.showSnackBar(context, "Text Copied!");
-                              }
-                            },
-                            child: Align(
-                              alignment: Alignment.bottomRight,
-                              child: Icon(
-                                Icons.copy,
-                                size: 14.w,
-                                color: Colors.white54,
+                          Row(
+                            mainAxisAlignment: .spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () async {
+                                  await Clipboard.setData(
+                                    ClipboardData(text: message.text),
+                                  );
+                                  if (context.mounted) {
+                                    AppUtils.showSnackBar(
+                                      context,
+                                      "Text Copied!",
+                                    );
+                                  }
+                                },
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Icon(
+                                    Icons.copy,
+                                    size: 14.w,
+                                    color: Colors.white54,
+                                  ),
+                                ),
                               ),
-                            ),
+                              //SizedBox(height: 8.h),
+                              Align(
+                                alignment: Alignment.bottomRight,
+                                child: Text(message.time.toString()),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -158,7 +175,8 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                         borderRadius: BorderRadius.circular(25.r),
                       ),
                       child: TextField(
-                        style: const TextStyle(color: Colors.white),
+                        controller: chatController,
+                        style: const TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           hintText: "Ask anything...",
                           hintStyle: TextStyle(
@@ -174,7 +192,17 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                   // 2. The Send Button
                   GestureDetector(
                     onTap: () {
-                      // Logic to send text tomorrow
+                      final message = chatController.text.trim();
+                      if (message.isNotEmpty) {
+                        ref
+                            .read(chatmessageProvider.notifier)
+                            .sendMessage(message);
+                      }
+                      //clear the text
+                      chatController.clear();
+                      //unfocus the text
+
+                      FocusScope.of(context).unfocus();
                     },
                     child: Container(
                       padding: EdgeInsets.all(12.w),

@@ -1,7 +1,7 @@
 import 'package:ai_project/models/chat_message_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final chatmessage =
+final chatmessageProvider =
     NotifierProvider<ChatMessageViewModel, List<ChatMessageModel>>(
       ChatMessageViewModel.new,
     );
