@@ -73,9 +73,6 @@ class ChatScreenView extends ConsumerWidget {
                   final message = messageProvider[index];
                   // logic even : user and odd : AI
                   bool isUser = index % 2 == 0;
-                  String messageL = isUser
-                      ? "User Message $index"
-                      : "AI message $index";
 
                   return Align(
                     alignment: isUser
@@ -178,6 +175,7 @@ class ChatScreenView extends ConsumerWidget {
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       decoration: BoxDecoration(
+                        // ignore: deprecated_member_use
                         color: Colors.white.withOpacity(0.05),
                         borderRadius: BorderRadius.circular(25.r),
                       ),
