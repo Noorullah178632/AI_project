@@ -13,7 +13,11 @@ class NetworkApiServices extends BaseApiServices {
     final jsonDecode;
     try {
       final response = await http
-          .post(Uri.parse(url), body: {"prompt: $data"})
+          .post(
+            Uri.parse(url),
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode(data),
+          )
           .timeout(const Duration(seconds: 20));
 
       jsonDecode = returnResponse(response);
