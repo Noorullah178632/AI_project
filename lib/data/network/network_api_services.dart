@@ -18,7 +18,7 @@ class NetworkApiServices extends BaseApiServices {
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode(data),
           )
-          .timeout(const Duration(seconds: 20));
+          .timeout(const Duration(seconds: 40));
 
       jsonDecode = returnResponse(response);
     } on SocketException {

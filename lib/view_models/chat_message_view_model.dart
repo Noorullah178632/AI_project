@@ -1,6 +1,5 @@
 import 'package:ai_project/models/chat_message_model.dart';
 import 'package:ai_project/services/gemini_services.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final chatmessageProvider =
@@ -35,19 +34,17 @@ class ChatMessageViewModel extends Notifier<List<ChatMessageModel>> {
       state = [...newMessage, ChatMessageModel(text: response, isUser: false)];
     } catch (e) {
       // 5. Handle the Exception properly instead of crashing
-      final updatedList = List<ChatMessageModel>.from(state);
-      updatedList.removeLast(); // Remove "..."
+      final errorMessage = List<ChatMessageModel>.from(state);
+      errorMessage.removeLast(); // Remove "..."
 
       // Show the actual error message in the chat bubble
       state = [
-        ...updatedList,
+        ...errorMessage,
         ChatMessageModel(
           text: "Connection lost. Please try again.",
           isUser: false,
         ),
       ];
-
-      print("Log Error: $e");
     }
   }
 }

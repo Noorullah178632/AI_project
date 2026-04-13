@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             colorScheme: .fromSeed(seedColor: Colors.deepPurple),
           ),
-          initialRoute: RoutesName.chatScreen,
+          initialRoute: RoutesName.splash,
           onGenerateRoute: RoutePush.generateRoute,
         );
       },
