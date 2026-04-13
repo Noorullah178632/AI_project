@@ -18,7 +18,7 @@ class GeminiServices {
             "text":
                 "Your name is Gemini. You were created by Noor Ullah, a Full Stack Flutter Developer and student of University of Peshawer "
                 "CRITICAL RULE: Do NOT introduce yourself or mention Noor Ullah unless the user explicitly asks 'Who created you?', 'Who is your developer?', or similar questions. "
-                "For all other prompts, just answer the user's question directly and concisely without any self-introduction and don't give unneccessary information just to the point answer",
+                "For all other prompts, just answer the user's question directly and concisely without any self-introduction and Answer in very short, clear, and simple sentences. No extra explanation. Be direct.",
           },
         ],
       },
@@ -32,7 +32,7 @@ class GeminiServices {
 
       "generationConfig": {
         "maxOutputTokens": 400, // Limits the length to speed up delivery
-        "temperature": 0.7,
+        "temperature": 0.3,
       },
     };
 
@@ -40,22 +40,25 @@ class GeminiServices {
       final response = await services.postApiServices(url, data);
 
       // print("DEBUG Response: $response"); // Keep this to see the structure
+      // The Clean, Professional Way
+      final candidates = response?['candidates'] as List?;
 
-      // New, more flexible parsing for Gemini 3
-      if (response != null && response['candidates'] != null) {
-        List candidates = response['candidates'];
-        if (candidates.isNotEmpty) {
-          // Some models use 'parts', some use 'text' directly in newer versions
-          var content = candidates[0]['content'];
-          if (content != null && content['parts'] != null) {
-            return content['parts'][0]['text'].toString();
-          }
-        }
+      //1. Guard Clause: Exit early if data is missing
+      if (candidates == null || candidates.isEmpty) {
+        return "AI reached but sent empty content.";
       }
 
-      return "AI reached but sent empty content. Check Safety Filters.";
+      // 2. CHECK SAFETY FIRST
+      // If finishReason is 'SAFETY', the 'content' field is usually empty.
+      if (candidates[0]['finishReason'] == 'SAFETY') {
+        return "The AI cannot generate this content due to safety filters. Try changing the wording.";
+      }
+      final firstCandidateContent = candidates[0]['content']?['parts'] as List?;
+      final text = firstCandidateContent?.firstOrNull?['text'];
+
+      return text?.toString() ?? "No text found";
     } catch (e) {
-      return "Error: ${e.toString()}";
+      rethrow;
     }
   }
 }
