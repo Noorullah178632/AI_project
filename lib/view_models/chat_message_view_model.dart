@@ -24,11 +24,11 @@ class ChatMessageViewModel extends Notifier<List<ChatMessageModel>> {
     await Future.delayed(Duration(seconds: 2));
 
     state = [...state, ChatMessageModel(text: "Thinking...", isUser: false)];
-
+    //3. Add the AI message and remove the "thinking ai text from the list"
     try {
       final response = await GeminiServices().geminiApiResponse(text);
 
-      // 3. Remove the "Thinking..." message and add the real one
+      // Remove the "Thinking..." message and add the real one
       final newMessage = List<ChatMessageModel>.from(state);
       newMessage.removeLast(); // Remove "Thinking..."
       state = [...newMessage, ChatMessageModel(text: response, isUser: false)];
