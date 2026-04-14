@@ -52,10 +52,19 @@ class ImageGenerateView extends ConsumerWidget {
           ],
         ),
       ),
-      body: SafeArea(child: Column(children: [
-          
-        ],
-      )),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return Container();
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
