@@ -53,8 +53,12 @@ class GeminiServices {
       if (candidates[0]['finishReason'] == 'SAFETY') {
         return "The AI cannot generate this content due to safety filters. Try changing the wording.";
       }
-      final firstCandidateContent = candidates[0]['content']?['parts'] as List?;
-      final text = firstCandidateContent?.firstOrNull?['text'];
+      final parts = candidates[0]['content']?['parts'] as List?;
+      // final text = parts?.firstOrNull?['text'];
+      final text = parts?.firstWhere(
+        (t) => t['text'] != null,
+        orElse: () => {},
+      );
 
       return text?.toString() ?? "No text found";
     } catch (e) {
