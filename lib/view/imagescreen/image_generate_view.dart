@@ -52,6 +52,7 @@ class ImageGenerateView extends ConsumerWidget {
           ],
         ),
       ),
+      body: SafeArea(child: Column()),
     );
   }
 }
