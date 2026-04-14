@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ImageGenerateView extends StatefulWidget {
+class ImageGenerateView extends StatelessWidget {
   const ImageGenerateView({super.key});
 
-  @override
-  State<ImageGenerateView> createState() => _ImageGenerateViewState();
-}
-
-class _ImageGenerateViewState extends State<ImageGenerateView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
