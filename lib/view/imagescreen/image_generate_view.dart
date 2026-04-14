@@ -6,7 +6,7 @@ class ImageGenerateView extends ConsumerWidget {
   const ImageGenerateView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
