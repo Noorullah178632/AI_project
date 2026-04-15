@@ -57,9 +57,146 @@ class ImageGenerateView extends ConsumerWidget {
           children: [
             Expanded(
               child: ListView.builder(
+                padding: EdgeInsets.symmetric(vertical: 5.h),
+                itemCount: 10,
                 itemBuilder: (context, index) {
-                  return Container();
+                  final image = "this is image ";
+                  // logic even : user and odd : AI
+                  bool isUser = index % 2 == 0;
+
+                  return Align(
+                    alignment: isUser
+                        ? Alignment.centerRight
+                        : Alignment.centerLeft,
+                    child: isUser
+                        ? Container(
+                            width: 240
+                                .w, // Increased width for better text readability
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 14.w,
+                              vertical: 6.h,
+                            ),
+                            padding: EdgeInsets.all(12.w),
+                            decoration: BoxDecoration(
+                              // Blue for User (80% theme), Green/Grey for AI
+                              color: Colors.blue.shade700,
+
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(16.r),
+                                topRight: Radius.circular(16.r),
+                                bottomLeft: Radius.circular(16.r),
+
+                                bottomRight: Radius.zero,
+                              ),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "this ",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
+                                SizedBox(height: 8.h),
+                                // Tiny Copy Button
+                                Row(
+                                  mainAxisAlignment: .spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () async {},
+                                      child: Align(
+                                        alignment: Alignment.bottomLeft,
+                                        child: Icon(
+                                          Icons.copy,
+                                          size: 14.w,
+                                          color: Colors.white54,
+                                        ),
+                                      ),
+                                    ),
+                                    //SizedBox(height: 8.h),
+                                    Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: Text(
+                                        "user text",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          //fontSize: 20.r,
+                                          //  fontWeight: .bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        : Container(child: Text(image)),
+                  );
                 },
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+              decoration: BoxDecoration(
+                color: Colors.white,
+
+                border: Border(
+                  top: BorderSide(color: Colors.white10, width: 0.5),
+                ),
+              ),
+              child: Row(
+                children: [
+                  // 1. The Input Field
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      decoration: BoxDecoration(
+                        // ignore: deprecated_member_use
+                        color: Colors.white.withOpacity(0.05),
+                        borderRadius: BorderRadius.circular(25.r),
+                      ),
+                      child: TextField(
+                        style: const TextStyle(color: Colors.black),
+                        decoration: InputDecoration(
+                          hintText: "Ask anything...",
+                          hintStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14.sp,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        //onsubmitted for "Enter" Button
+                        onSubmitted: (value) {},
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 12.w),
+                  // 2. The Send Button
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      padding: EdgeInsets.all(12.w),
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.lightBlue,
+                            Color(0xFFE1B9C6),
+                          ], // Theme consistency
+                        ),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.send_rounded,
+                          color: Colors.white,
+                          size: 20.w,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
