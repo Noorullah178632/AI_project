@@ -1,4 +1,6 @@
+import 'package:ai_project/utils/generalUtils/app_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -72,9 +74,10 @@ class ImageGenerateView extends ConsumerWidget {
                         ? Container(
                             width: 240
                                 .w, // Increased width for better text readability
+
                             margin: EdgeInsets.symmetric(
                               horizontal: 14.w,
-                              vertical: 6.h,
+                              vertical: 10.h,
                             ),
                             padding: EdgeInsets.all(12.w),
                             decoration: BoxDecoration(
@@ -105,7 +108,17 @@ class ImageGenerateView extends ConsumerWidget {
                                   mainAxisAlignment: .spaceBetween,
                                   children: [
                                     GestureDetector(
-                                      onTap: () async {},
+                                      onTap: () async {
+                                        Clipboard.setData(
+                                          ClipboardData(text: image),
+                                        );
+                                        if (context.mounted) {
+                                          AppUtils.showSnackBar(
+                                            context,
+                                            "Text copied",
+                                          );
+                                        }
+                                      },
                                       child: Align(
                                         alignment: Alignment.bottomLeft,
                                         child: Icon(
@@ -119,7 +132,7 @@ class ImageGenerateView extends ConsumerWidget {
                                     Align(
                                       alignment: Alignment.bottomRight,
                                       child: Text(
-                                        "user text",
+                                        "11:40 AM",
                                         style: TextStyle(
                                           color: Colors.white,
                                           //fontSize: 20.r,
@@ -132,7 +145,48 @@ class ImageGenerateView extends ConsumerWidget {
                               ],
                             ),
                           )
-                        : Container(child: Text(image)),
+                        : Container(
+                            width: 200.w,
+                            height: 200.h,
+                            padding: EdgeInsets.all(6.w),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.r),
+                              child: Image.network(
+                                'https://tinyurl.com/4zh9f85j', // your image URL
+                                fit: BoxFit.cover,
+
+                                //  Loading
+                                loadingBuilder: (context, child, progress) {
+                                  if (progress == null) return child;
+
+                                  return Center(
+                                    child: SizedBox(
+                                      width: 20.w,
+                                      height: 20.h,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2.w,
+                                      ),
+                                    ),
+                                  );
+                                },
+
+                                //  Error
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Center(
+                                    child: Icon(
+                                      Icons.broken_image,
+                                      size: 30.sp,
+                                      color: Colors.grey,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                   );
                 },
               ),
