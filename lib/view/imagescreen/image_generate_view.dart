@@ -146,45 +146,83 @@ class ImageGenerateView extends ConsumerWidget {
                             ),
                           )
                         : Container(
-                            width: 200.w,
+                            width: 1.sw,
                             height: 200.h,
-                            padding: EdgeInsets.all(6.w),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(12.r),
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 14.w,
+                              vertical: 8.h,
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10.r),
-                              child: Image.network(
-                                'https://tinyurl.com/4zh9f85j', // your image URL
-                                fit: BoxFit.cover,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12.r),
+                              border: Border.all(
+                                color: Colors.grey.shade300,
+                                width: 1.5.w,
+                              ),
+                            ),
+                            child: Stack(
+                              children: [
+                                // 1. The Image
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  child: Image.network(
+                                    "https://tinyurl.com/yz5t6pax",
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    loadingBuilder: (context, child, progress) {
+                                      if (progress == null) return child;
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.blue,
+                                          strokeWidth: 2.w,
+                                        ),
+                                      );
+                                    },
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Center(
+                                              child: Icon(
+                                                Icons.broken_image,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                  ),
+                                ),
 
-                                //  Loading
-                                loadingBuilder: (context, child, progress) {
-                                  if (progress == null) return child;
-
-                                  return Center(
-                                    child: SizedBox(
-                                      width: 20.w,
-                                      height: 20.h,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2.w,
+                                // 2. Download Button Overlay
+                                Align(
+                                  alignment: .bottomEnd,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      AppUtils.showSnackBar(
+                                        context,
+                                        "Downloading image...",
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(8.w),
+                                      decoration: BoxDecoration(
+                                        //   color: Colors.blue.withOpacity(0.6),
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.lightBlue,
+                                            Color(0xFFE1B9C6),
+                                          ],
+                                          begin: .centerLeft,
+                                          end: .centerRight,
+                                          stops: [0.2, 1.0],
+                                        ),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        Icons.file_download_outlined,
+                                        color: Colors.white,
+                                        size: 20.w,
                                       ),
                                     ),
-                                  );
-                                },
-
-                                //  Error
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Center(
-                                    child: Icon(
-                                      Icons.broken_image,
-                                      size: 30.sp,
-                                      color: Colors.grey,
-                                    ),
-                                  );
-                                },
-                              ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                   );
