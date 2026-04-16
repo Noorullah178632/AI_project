@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 
 import 'package:universal_html/html.dart' as html;
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 class DownloadImageService {
   Future<void> downloadImage(String url) async {
@@ -32,7 +32,7 @@ class DownloadImageService {
       } else {
         //for mobiles
 
-        final result = await ImageGallerySaver.saveImage(
+        final result = await ImageGallerySaverPlus.saveImage(
           bytes,
           quality: 100,
           name: fileName,
