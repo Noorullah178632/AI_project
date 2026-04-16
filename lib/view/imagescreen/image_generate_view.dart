@@ -1,3 +1,4 @@
+import 'package:ai_project/services/download_image_service.dart';
 import 'package:ai_project/utils/generalUtils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -194,10 +195,10 @@ class ImageGenerateView extends ConsumerWidget {
                                   alignment: .bottomEnd,
                                   child: GestureDetector(
                                     onTap: () {
-                                      AppUtils.showSnackBar(
-                                        context,
-                                        "Downloading image...",
+                                      DownloadImageService().downloadImage(
+                                        "https://tinyurl.com/yz5t6pax",
                                       );
+                                      if (context.mounted) {}
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(8.w),
