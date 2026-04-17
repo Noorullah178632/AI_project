@@ -1,4 +1,5 @@
 import 'package:ai_project/models/image_ai_models.dart';
+import 'package:ai_project/services/gemini_image_services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,10 +27,31 @@ class ImageViewModel extends Notifier<List<ImageAiModels>> {
     state = [
       ...state,
       ImageAiModels(
-        text: "AI responding",
+        text: "Gemini is painting...",
         isUser: false,
         type: MessageType.text,
       ),
     ];
+
+    try {
+      final response = await GeminiImageServices().ImageGenerate(inputText);
+      final newMessage = List<ImageAiModels>.from(state);
+      newMessage.removeLast();
+      state = [
+        ...state,
+        ImageAiModels(image: response, isUser: false, type: MessageType.image),
+      ];
+    } catch (e) {
+      final errorMessage = List<ImageAiModels>.from(state);
+      errorMessage.removeLast();
+      state = [
+        ...state,
+        ImageAiModels(
+          text: 'Generation failed. Please try again.',
+          isUser: false,
+          type: MessageType.text,
+        ),
+      ];
+    }
   }
 }
