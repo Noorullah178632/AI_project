@@ -7,8 +7,11 @@ import 'package:ai_project/services/download_image_service.dart';
 import 'package:ai_project/utils/generalUtils/app_utils.dart';
 
 Widget imageBubble(BuildContext context, ImageAiModels data) {
-  final imageUrl = data.image ?? "";
-
+  final imageUrl = data.image;
+  if (imageUrl == null || imageUrl.isEmpty) {
+    return const Center(child: Icon(Icons.broken_image));
+  }
+  final bytes = base64Decode(imageUrl);
   return Container(
     width: 1.sw,
     height: 200.h,
@@ -23,10 +26,13 @@ Widget imageBubble(BuildContext context, ImageAiModels data) {
         ClipRRect(
           borderRadius: BorderRadius.circular(10.r),
           child: Image.memory(
-            base64Decode(data.image!),
+            bytes,
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
+
+            errorBuilder: (_, __, ___) =>
+                const Center(child: Icon(Icons.broken_image)),
           ),
         ),
 

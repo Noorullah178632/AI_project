@@ -20,6 +20,10 @@ class GeminiImageServices {
           ],
         },
       ],
+      // CRITICAL: Tell Gemini to output an Image
+      "generationConfig": {
+        "response_modalities": ["IMAGE"],
+      },
     };
 
     try {
