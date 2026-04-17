@@ -1,5 +1,7 @@
-import 'package:ai_project/services/download_image_service.dart';
-import 'package:ai_project/utils/generalUtils/app_utils.dart';
+import 'package:ai_project/models/image_ai_models.dart';
+
+import 'package:ai_project/view/imagescreen/widgets/imageBubble.dart';
+import 'package:ai_project/view/imagescreen/widgets/textBubble.dart';
 import 'package:ai_project/view_models/image_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -71,180 +73,16 @@ class ImageGenerateView extends ConsumerWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                padding: EdgeInsets.symmetric(vertical: 5.h),
                 itemCount: dataList.length,
                 itemBuilder: (context, index) {
                   final data = dataList[index];
-                  final image = "this is image ";
-                  // logic even : user and odd : AI
-                  bool isUser = data.isUser;
-
                   return Align(
-                    alignment: isUser
+                    alignment: data.isUser
                         ? Alignment.centerRight
                         : Alignment.centerLeft,
-                    child: isUser
-                        ? Container(
-                            width: 240
-                                .w, // Increased width for better text readability
-
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 14.w,
-                              vertical: 10.h,
-                            ),
-                            padding: EdgeInsets.all(12.w),
-                            decoration: BoxDecoration(
-                              // Blue for User (80% theme), Green/Grey for AI
-                              color: Colors.blue.shade700,
-
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(16.r),
-                                topRight: Radius.circular(16.r),
-                                bottomLeft: Radius.circular(16.r),
-
-                                bottomRight: Radius.zero,
-                              ),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  data.text.toString(),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                                SizedBox(height: 8.h),
-                                // Tiny Copy Button
-                                Row(
-                                  mainAxisAlignment: .spaceBetween,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () async {
-                                        Clipboard.setData(
-                                          ClipboardData(text: image),
-                                        );
-                                        if (context.mounted) {
-                                          AppUtils.showSnackBar(
-                                            context,
-                                            "Text copied",
-                                          );
-                                        }
-                                      },
-                                      child: Align(
-                                        alignment: Alignment.bottomLeft,
-                                        child: Icon(
-                                          Icons.copy,
-                                          size: 14.w,
-                                          color: Colors.white54,
-                                        ),
-                                      ),
-                                    ),
-                                    //SizedBox(height: 8.h),
-                                    Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: Text(
-                                        "11:40 AM",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          //fontSize: 20.r,
-                                          //  fontWeight: .bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          )
-                        : Container(
-                            width: 1.sw,
-                            height: 200.h,
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 14.w,
-                              vertical: 8.h,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12.r),
-                              border: Border.all(
-                                color: Colors.grey.shade300,
-                                width: 1.5.w,
-                              ),
-                            ),
-                            child: Stack(
-                              children: [
-                                // 1. The Image
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  child: Image.network(
-                                    "https://tinyurl.com/yz5t6pax",
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    loadingBuilder: (context, child, progress) {
-                                      if (progress == null) return child;
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.blue,
-                                          strokeWidth: 2.w,
-                                        ),
-                                      );
-                                    },
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            const Center(
-                                              child: Icon(
-                                                Icons.broken_image,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                  ),
-                                ),
-
-                                // 2. Download Button Overlay
-                                Align(
-                                  alignment: .bottomEnd,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      DownloadImageService()
-                                          .downloadImage(
-                                            "https://tinyurl.com/yz5t6pax",
-                                          )
-                                          .then((value) {
-                                            AppUtils.showSnackBar(
-                                              context,
-                                              "Image Downloaded",
-                                            );
-                                          });
-                                      if (context.mounted) {}
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.all(8.w),
-                                      decoration: BoxDecoration(
-                                        //   color: Colors.blue.withOpacity(0.6),
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Colors.lightBlue,
-                                            Color(0xFFE1B9C6),
-                                          ],
-                                          begin: .centerLeft,
-                                          end: .centerRight,
-                                          stops: [0.2, 1.0],
-                                        ),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Icon(
-                                        Icons.file_download_outlined,
-                                        color: Colors.white,
-                                        size: 20.w,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                    child: data.type == MessageType.text
+                        ? textBubble(context, data)
+                        : imageBubble(context, data),
                   );
                 },
               ),

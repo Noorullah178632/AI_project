@@ -21,9 +21,9 @@ class ImageViewModel extends Notifier<List<ImageAiModels>> {
       ...state,
       ImageAiModels(text: inputText, isUser: true, type: MessageType.text),
     ];
-    await Future.delayed(Duration(seconds: 3));
-    //Add AI image response
 
+    //Add AI image response
+    await Future.delayed(Duration(seconds: 3));
     state = [
       ...state,
       ImageAiModels(
@@ -38,16 +38,16 @@ class ImageViewModel extends Notifier<List<ImageAiModels>> {
       final newMessage = List<ImageAiModels>.from(state);
       newMessage.removeLast();
       state = [
-        ...state,
+        ...newMessage,
         ImageAiModels(image: response, isUser: false, type: MessageType.image),
       ];
     } catch (e) {
       final errorMessage = List<ImageAiModels>.from(state);
       errorMessage.removeLast();
       state = [
-        ...state,
+        ...errorMessage,
         ImageAiModels(
-          text: 'Generation failed. Please try again.',
+          text: 'Generation failed. Please try again later',
           isUser: false,
           type: MessageType.text,
         ),
