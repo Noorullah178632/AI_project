@@ -1,15 +1,26 @@
 import 'package:ai_project/services/download_image_service.dart';
 import 'package:ai_project/utils/generalUtils/app_utils.dart';
+import 'package:ai_project/view_models/image_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ImageGenerateView extends ConsumerWidget {
-  const ImageGenerateView({super.key});
-
+  ImageGenerateView({super.key});
+  final textControllerProvider = Provider<TextEditingController>((ref) {
+    final controller = TextEditingController();
+    //make a dispose method
+    ref.onDispose(() {
+      controller.dispose();
+    });
+    return controller;
+  });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //get all the riverpods
+    final textController = ref.watch(textControllerProvider);
+    final dataList = ref.watch(ImageViewModelProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -61,11 +72,12 @@ class ImageGenerateView extends ConsumerWidget {
             Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.symmetric(vertical: 5.h),
-                itemCount: 10,
+                itemCount: dataList.length,
                 itemBuilder: (context, index) {
+                  final data = dataList[index];
                   final image = "this is image ";
                   // logic even : user and odd : AI
-                  bool isUser = index % 2 == 0;
+                  bool isUser = data.isUser;
 
                   return Align(
                     alignment: isUser
@@ -97,7 +109,7 @@ class ImageGenerateView extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "this ",
+                                  data.text.toString(),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14.sp,
@@ -258,6 +270,7 @@ class ImageGenerateView extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(25.r),
                       ),
                       child: TextField(
+                        controller: textController,
                         style: const TextStyle(color: Colors.black),
                         decoration: InputDecoration(
                           hintText: "Ask anything...",
@@ -268,14 +281,30 @@ class ImageGenerateView extends ConsumerWidget {
                           border: InputBorder.none,
                         ),
                         //onsubmitted for "Enter" Button
-                        onSubmitted: (value) {},
+                        onSubmitted: (value) {
+                          final message = textController.text.trim();
+                          if (message.isNotEmpty) {
+                            ref
+                                .read(ImageViewModelProvider.notifier)
+                                .sendMessage(message);
+                          }
+                          textController.clear();
+                        },
                       ),
                     ),
                   ),
                   SizedBox(width: 12.w),
                   // 2. The Send Button
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      final message = textController.text.trim();
+                      if (message.isNotEmpty) {
+                        ref
+                            .read(ImageViewModelProvider.notifier)
+                            .sendMessage(message);
+                      }
+                      textController.clear();
+                    },
                     child: Container(
                       padding: EdgeInsets.all(12.w),
                       decoration: const BoxDecoration(
