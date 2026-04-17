@@ -195,9 +195,16 @@ class ImageGenerateView extends ConsumerWidget {
                                   alignment: .bottomEnd,
                                   child: GestureDetector(
                                     onTap: () {
-                                      DownloadImageService().downloadImage(
-                                        "https://tinyurl.com/yz5t6pax",
-                                      );
+                                      DownloadImageService()
+                                          .downloadImage(
+                                            "https://tinyurl.com/yz5t6pax",
+                                          )
+                                          .then((value) {
+                                            AppUtils.showSnackBar(
+                                              context,
+                                              "Image Downloaded",
+                                            );
+                                          });
                                       if (context.mounted) {}
                                     },
                                     child: Container(
