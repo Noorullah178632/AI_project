@@ -10,6 +10,7 @@ class GeminiServices {
     // 1. Updated Model Name to gemini-3-flash
     String url =
         "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=$_apiKey";
+
     Map<String, dynamic> data = {
       // 1. This part tells the AI WHO it is and WHO made it
       "system_instruction": {
